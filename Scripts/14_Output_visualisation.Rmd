@@ -1,0 +1,88 @@
+---
+title: "Shingrix Fig 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+## Import libraries
+library('tidyverse')
+library('cowplot')
+library('scales')
+
+## Import data
+d <- read_csv("Model_6_data_noabbrev.csv")
+
+## Set factor levels
+d$Variable = factor(d$Variable, levels = unique(d$Variable))
+d$Level = factor(d$Level, levels = unique(d$Level)) %>% fct_rev()
+d$Subgroup = factor(d$Subgroup, levels = unique(d$Subgroup))
+
+## Exclude recent zoster infection
+d <- subset(d, Variable != "Recent zoster infection")
+
+levels(d$Level) <- c(levels(d$Level), "BMI \u226525 kg/m\u00b2")
+d$Level[50] <- "BMI \u226525 kg/m\u00b2"
+
+levels(d$Level) <- c(levels(d$Level), "BMI <25 kg/m\u00b2")
+d$Level[49] <- "BMI <25 kg/m\u00b2"
+
+```
+
+```{r, fig.width=9, fig.height=10}
+g1 = ggplot(d, aes(y = Uptake, x = Level, shape=Subgroup, colour = Subgroup)) + 
+    geom_point(size = 2, alpha=0.8) +
+    geom_segment(aes(xend=Level), yend=0) +
+    coord_flip() + facet_grid(Variable~., scales = "free", space = "free", switch="y") + 
+    theme_bw() + theme(strip.background = element_blank()) + labs(colour = "Group") +
+    geom_hline(yintercept=1, linetype="dotted") + 
+    ylim(0,50) +
+    ylab("Uptake (%)") + xlab("") +
+    scale_shape_manual(values = c("Demography" = 16, "Clinical"=15, "Lifestyle"=17)) +
+    scale_colour_manual(values = c("#3B9AB2",   "#B40F20","#E1AF00")) +
+    theme(axis.title = element_text(size=10.5), 
+          panel.spacing = unit(0.5, "lines"),
+          plot.margin = unit(c(0.02, 0.1, 0.02, 0.02), "cm"),
+          axis.text = element_text(size=10.5), 
+          strip.placement = "outside",
+          strip.text.y.left = element_text(angle = 0, size=10.5),
+          legend.title = element_text(size = 10.5), 
+          legend.text = element_text(size = 10.5), 
+          legend.position = "none")
+
+g2 = ggplot(d, aes(y = OR, x = Level, shape = SubgroupRef, colour = Subgroup)) +
+    geom_point(size = 2, alpha = 0.8) +
+    geom_errorbar(aes(ymin = as.numeric(lower), ymax = as.numeric(upper)), width = 0) +
+    coord_flip() +
+    facet_grid(Variable ~ ., scales = "free", space = "free") +
+    theme_bw() +
+    geom_hline(yintercept = 1, linetype = "dotted") +
+    scale_y_continuous(trans = "log", limits = c(0.25, 2), breaks = c(0.25, 0.5, 1, 2)) +
+    ylab("Odds ratio (95% CI)") + xlab("") +
+    scale_shape_manual(values = c(
+        "Demography.0" = 16,  # circle
+        "Demography.1" = 1,   # open circle
+        "Clinical.0" = 15,  # square
+        "Clinical.1" = 0,   # open square
+        "Lifestyle.0" = 17,  # triangle
+        "Lifestyle.1" = 2    # open triangle
+    )) +
+    scale_colour_manual(values = c(
+        "Demography" = "#3B9AB2",  # blue
+        "Clinical" = "#B40F20",  # red
+        "Lifestyle" = "#E1AF00"   # yellow
+    )) +
+    theme(
+        legend.title = element_text(size = 10.5),
+        legend.text = element_text(size = 10.5),
+        axis.text.x = element_text(size = 10.5),
+        axis.text.y = element_blank(),
+        strip.text = element_blank(),
+        legend.position = "right"
+    )
+
+g1_clean <- g1 + theme(legend.position = "none")
+g2_clean <- g2 + theme(legend.position = "none")
+plot_grid(g1_clean, g2, ncol=2,  align="h", axis = c("tb"), rel_widths = c(2.9,1.7))
+```
