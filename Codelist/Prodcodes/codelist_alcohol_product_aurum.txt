@@ -1,0 +1,9 @@
+prodcodeid	dmdid	termfromemis	productname	formulation	routeofadministration	drugsubstancename	substancestrength	bnfchapter
+4341000033115	42267511000001104	acamprosate 333mg gastro-resistant tablets	Acamprosate 333mg gastro-resistant tablets	Gastro-resistant tablet	Oral	Acamprosate calcium	333.000mg	04100100
+70641000033112	466211000001101	antabuse 200mg tablets (actavis uk ltd)	Antabuse 200mg tablets	Tablet/ Oral Tablet	Oral	Disulfiram	200.000mg	NA
+189941000033110	762911000001103	campral ec 333mg tablets (merck serono ltd)	Campral EC 333mg tablets	Gastro-resistant tablet	Oral	Acamprosate calcium	333.000mg	NA
+465541000033117	42270311000001102	disulfiram 200mg tablets	Disulfiram 200mg tablets	Tablet/ Oral Tablet	Oral	Disulfiram	200.000mg	04100100
+8322841000033117	22403411000001107	nalmefene 18mg tablets	Nalmefene 18mg tablets	Tablet/ Oral Tablet	Oral	Nalmefene hydrochloride	18.000mg	04100100
+8322941000033113	22368011000001104	selincro 18mg tablets (lundbeck ltd)	Selincro 18mg tablets	Tablet/ Oral Tablet	Oral	Nalmefene hydrochloride	18.000mg	NA
+12105941000033111	42270511000001108	disulfiram 500mg tablets	Disulfiram 500mg tablets	Tablet/ Oral Tablet	Oral	Disulfiram	500.000mg	04100100
+12187741000033119	42270411000001109	disulfiram 250mg tablets	Disulfiram 250mg tablets	Tablet/ Oral Tablet	Oral	Disulfiram	250.000mg	NA
